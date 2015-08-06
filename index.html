@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Waruga by ibnux</title>
+    <title>Waruga</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -13,61 +13,55 @@
     <section class="page-header">
       <h1 class="project-name">Waruga</h1>
       <h2 class="project-tagline">Aplikasi untuk management Data Warga, digunakan untuk Ketua RT</h2>
-      <a href="https://github.com/ibnux/Waruga" class="btn">View on GitHub</a>
-      <a href="https://github.com/ibnux/Waruga/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/ibnux/Waruga/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+      <a href="https://github.com/ibnux/Waruga" class="btn">Source Code</a> 
+      <a href="http://ibnux.github.io/Waruga/unduh/Waruga.apk" class="btn">Android APK</a>
+      <a href="http://ibnux.github.io/Waruga/unduh/index.php" class="btn">Web Installer</a>
+      <a href="http://ibnux.github.io/Waruga/disquss.html" class="btn">Diskusi</a></section>
 
     <section class="main-content">
-      <h1>
-<a id="waruga" class="anchor" href="#waruga" aria-hidden="true"><span class="octicon octicon-link"></span></a>Waruga</h1>
-
-<p><em>Source Code</em> Aplikasi untuk ketua RT dalam manajemen data warga dan menghitung uang kas dari iuran warga.</p>
-
-<p>Silahkan ke <a href="http://waruga.ibnux.org">waruga.ibnux.org</a> untuk versi yang tinggal pakai.</p>
-
-<p>Aplikasi saya buat di Mac OS, dimana menggunakan <em>Sheel script</em> untuk <em>compile</em> aplikasi PHP menjadi <a href="http://php.net/manual/en/intro.phar.php">Phar</a> menggunakan <a href="http://empir.sourceforge.net">empir</a></p>
-
-<p>Untuk windows silahkan cari caranya :) Anda Programmer, pasti bisa cari jawabannya (^_^)v</p>
-
-<p>untuk compile silahkan edit phar.sh terutama bagian <code>../warugar/unduh/waruga.phar</code> ini merupakan posisi hasil <em>compile</em> menjadi phar</p>
-
-<p>lalu <code>chmod +x phar.sh</code>
-selanjutnya panggil di command line  <code>./phar.sh</code></p>
-
-<p>aplikasi sederhana, dibuat tanpa keamanan memadai, semua fungsi ada di folder <strong>include</strong>, dimana cukup dipanggil dengan request GET <code>?apa=[namafile]</code></p>
-
-<p>menambahkan menu ada di <strong>menu.php</strong></p>
-
-<p>Tampilan menggunakan <a href="http://getbootstrap.com">Twitter Bootstrap</a></p>
-
-<p>Saya kurang mengerti masalah lisensi perangkat lunak, maaf jika ada yang kurang biasanya ada di bagian file yg saya gunakan (css/js).</p>
-
-<p>Untuk aplikasi Waruga sendiri berlisensi MIT.</p>
-
-<h1></h1>
-
-<p><strong>The MIT License</strong></p>
-
-<p>Copyright (c) 2014 Ibnu Maksum (<a href="mailto:me@ibnux.net">me@ibnux.net</a>)</p>
-
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-
-<p>The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.</p>
-
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.</p>
+      <h1> <a href="#waruga" class="anchor" id="waruga" aria-hidden="true"><span class="octicon octicon-link"></span></a>Waruga</h1>
+      <p>Adalah aplikasi untuk ketua RT dalam manajemen data warga dan menghitung uang kas dari iuran warga. Cocok digunakan di lungkungan perumahan.</p>
+      <p>Fitur aplikasi:<br>
+<ol>
+  <li>Iuran warga dan Uang KAS</li>
+  <li>Data Warga per Blok</li>
+  <li>Denah Blok </li>
+  <li>Broadcast SMS dengan bantuan <a href="https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway">SMS server</a>, akan dibuatkan versi Khusus.</li>
+  <li>Mengetahui Warga yang belum Iuran</li>
+  <li>Statistik Iuran dan KAS</li>
+  <li>Catatan Surat menyurat*</li>
+  <li>Buku Tamu*</li>
+  <li>Absen Ronda* </li>
+  <li>Pegawai RT (Satpam/Tukang Sampah)*</li>
+  <li>Sinkronisasi*</li>
+  <li>Backup*</li>
+  <li>Export data*</li>
+  <li>Export Vcard*</li>
+  <li>dll </li>
+</ol>
+<small>* belum dibuat</small>
+</p>
+<p>Aplikasi dibuat menggunakan PHP dan memerlukan web server untuk menjalankannya. Pada android bisa menggunakan aplikasi <a href="https://play.google.com/store/apps/details?id=com.esminis.server.php">Server for PHP</a>, &nbsp;sudah saya siapkan installernya diatas, dan pada PC/Laptop Windows menggunakan <a href="http://www.wampserver.com/en/">WAMP</a> atau <a href="https://www.apachefriends.org/index.html">XAMPP.</a></p>
+<p>Instalasi pada PC/Laptop silahkan download WAMP/XAMPP lalu unduh Web Installer. Cara ini mungkin agak rumit bagi orang awam, silahkan hubungi @ibnux untuk bantuan.</p>
+<p><b>Instalasi pada Android</b></p>
+<p>Untuk Android tinggal install APK diatas, jalankan Aplikasi <strong>Server for PHP</strong> untuk memulai instalasi web server. aktifkan <strong>Start on boot</strong> dan <strong>Keep Server Alive</strong><br>
+  <img src="images/Screenshot_2015-08-06-16-51-03.jpeg" ></p>
+<p>Untuk Keamanan pilih IP 127.0.0.1<br><img src="images/Screenshot_2015-08-06-16-51-26.jpeg"><br>
+Pilih IP Wlan jika ingin diakses dari Laptop/PC, akan muncul jika terkoneksi dengan wireless, hati-hati orang lain bisa akses juga.<br>
+<img src="images/Screenshot_2015-08-06-16-54-21.jpeg">
+</p>
+<p>Akses <strong>http://127.0.0.1:8080/waruga/</strong> dari Browser Chrome (Rekomendasi), pastikan alamat diakhiri garis miring <strong>/</strong><br>
+<img src="images/Screenshot_2015-08-06-16-55-16.jpeg"></p>
+<p>Klik menu atau 3 titik di kanan atas, pilih Add to HomeScreen<br>
+<img src="images/Screenshot_2015-08-06-16-55-28.jpeg"><br>
+<img src="images/Screenshot_2015-08-06-16-55-33.jpeg">
+</p>
+<p>Selanjutnya anda tinggal akses Waruga dari icon yang ada di Home Screen.<br>
+<img src="images/Screenshot_2015-08-06-16-56-01.jpeg"></p>
+<p>Untuk Bantuan, pertanyaan dan lain lain silahkan di diskusikan <a href="disquss.html">disini</a>.</p>
+<p>Aplikasi ini dibuat menggunakan PHP agar portable, open source, mudah mengurusnya, dan bisa cepat perbaikan bugnya, bahkan bisa minta bantuan banyak developer untuk menambah fiturnya.</p>
+<p>Masih banyak PR yang harus diselesaikan, aplikasi dikerjakan di sela-sela ibnux mencari uang :D</p>
+<p>Donasi bisa ke Bank BCA 4890151162 an. Ibnu Maksum, Donasi bisa membantu mempercepat pembuatan aplikasi ini</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ibnux/Waruga">Waruga</a> is maintained by <a href="https://github.com/ibnux">ibnux</a>.</span>

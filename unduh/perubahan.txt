@@ -1,0 +1,5 @@
+[1.2]
+perbaikan kesalahan kode
+
+[1.0]
+Mulai simple dengan Phar
