@@ -1,0 +1,1 @@
+php -dphar.readonly=0 empir make ../warugar/unduh/waruga.phar index.php . --exclude="data/*|.git/*|.gitignore|config.json|empir|manifest.json|phar.sh"
