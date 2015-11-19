@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors','off');
 date_default_timezone_set('Asia/Jakarta');
 $pathDB = "./data/base.db";
 if(!file_exists('./data/'))
@@ -11,10 +12,12 @@ $db = new SQLite3($pathDB);
 if($buattabel)createTableDefault();
 if(!file_exists($pathDB))die("Cannot Create Database. please chmod 777 folder data");
 
-$KELUARGA = "./data/foto/keluarga_";
+$KELUARGA = "./data/.foto/keluarga_";
+if(!file_exists("./data/.foto/"))
+	mkdir("./data/.foto/",0777,true);
+
 if(isset($_GET['recreate']))createTableDefault();
 function createTableDefault(){
-	mkdir("./data/foto/");
 	global $db;
 	$db->exec("CREATE TABLE IF NOT EXISTS `t_warga` (
 	  `id_warga` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -23,15 +26,28 @@ function createTableDefault(){
 	  `label_warga` varchar(200),
 	  `blok_rumah` varchar(4),
 	  `nomor_rumah` varchar(4),
+	  `nomor_kk` varchar(50),
+	  `ktp_suami` varchar(50),
+	  `agama_suami` varchar(15) DEFAULT 'ISLAM',
+	  `warga_negara_suami` varchar(30),
 	  `nama_suami` varchar(100),
 	  `telepon_suami` varchar(30),
+	  `email_suami` varchar(255),
 	  `pekerjaan_suami` varchar(200),
-	  `tglahir_suami` INTEGER DEFAULT 0,
+	  `pendidikan_suami` varchar(50),
+	  `tempat_lahir_suami` varchar(50),
+	  `tglahir_suami` INTEGER DEFAULT -30610245972,
+	  `ktp_istri` varchar(50),
+	  `agama_istri` varchar(15) DEFAULT 'ISLAM',
+	  `warga_negara_istri` varchar(30),
 	  `nama_istri` varchar(100),
 	  `telepon_istri` varchar(30),
+	  `email_istri` varchar(255),
 	  `pekerjaan_istri` varchar(200),
-	  `tglahir_istri` INTEGER DEFAULT 0,
-	  `email` varchar(255),
+	  `pendidikan_istri` varchar(50),
+	  `tempat_lahir_istri` varchar(50),
+	  `tglahir_istri` INTEGER DEFAULT -30610245972,
+	  `catatan` varchar(300),
 	  `custom_data` varchar,	  
 	  `tgl_masuk` INTEGER DEFAULT 0,
 	  `tgl_keluar` INTEGER DEFAULT 0,
@@ -40,12 +56,20 @@ function createTableDefault(){
 	$db->exec("CREATE TABLE IF NOT EXISTS `t_warga_tambahan` (
 	  `id_warga_tambahan` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	  `id_warga` INTEGER NOT NULL,
+	  `no_ktp` varchar(50),
+	  `warga_negara` varchar(30) DEFAULT 'WNI',
+	  `agama` varchar(15) DEFAULT 'ISLAM',
+	  `pendidikan` varchar(50),
+	  `pekerjaan` varchar(200),
 	  `nama_lengkap` varchar(300),
 	  `jenis_kelamin` varchar(1),
 	  `nomor_hp` varchar(20),
+	  `email` varchar(255),
 	  `status_kawin` varchar(10),
 	  `hubungan_keluarga` varchar(30),
-	  `tanggal_lahir` INTEGER DEFAULT 0,
+	  `catatan` varchar(300),
+	  `tempat_lahir` varchar(50),
+	  `tanggal_lahir` INTEGER DEFAULT -30610245972,
 	  `tanggal_masuk` INTEGER DEFAULT 0,
 	  `tanggal_keluar` INTEGER DEFAULT 0,
 	  `last_update` INTEGER
@@ -174,4 +198,37 @@ function labelExist($label, $dicari){
 }
 $bulanArray = array("Januari","Pebruari","Maret","April","Mei","Juni",
 				"Juli","Agustus","September","Oktober","November","Desember");
-	
+$blnArray = array("Jan","Peb","Mar","Apr","Mei","Jun",
+				"Jul","Agt","Sep","Okt","Nov","Des");
+
+//ENKRIPSI
+class Security {
+	public static function encrypt($input, $key) {
+		$size = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB); 
+		$input = Security::pkcs5_pad($input, $size); 
+		$td = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_ECB, ''); 
+		$iv = mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_RAND); 
+		mcrypt_generic_init($td, $key, $iv); 
+		$data = mcrypt_generic($td, $input); 
+		mcrypt_generic_deinit($td); 
+		mcrypt_module_close($td); 
+		$data = base64_encode($data); 
+		return $data; 
+	} 
+	private static function pkcs5_pad ($text, $blocksize) { 
+		$pad = $blocksize - (strlen($text) % $blocksize); 
+		return $text . str_repeat(chr($pad), $pad); 
+	} 
+	public static function decrypt($sStr, $sKey) {
+		$decrypted= mcrypt_decrypt(
+			MCRYPT_RIJNDAEL_128,
+			$sKey, 
+			base64_decode($sStr), 
+			MCRYPT_MODE_ECB
+		);
+		$dec_s = strlen($decrypted); 
+		$padding = ord($decrypted[$dec_s-1]); 
+		$decrypted = substr($decrypted, 0, -$padding);
+		return $decrypted;
+	}	
+}

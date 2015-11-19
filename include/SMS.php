@@ -1,4 +1,5 @@
 <?
+
 ikutkan("head.php");
 ikutkan("menu.php");
 $do = $_GET['do'];

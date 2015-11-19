@@ -5,7 +5,7 @@ ikutkan("menu.php");
 <?
 $versi = file_get_contents("versi.txt");
 $ch = curl_init();
-$timeout = 5;
+$timeout = 30;
 curl_setopt($ch, CURLOPT_URL, "http://ibnux.github.io/Waruga/unduh/versi.txt");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);

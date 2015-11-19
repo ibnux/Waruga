@@ -2,32 +2,50 @@
 $ID = $_REQUEST['id']*1;
 $folderKeluarga = $KELUARGA."$ID/";
 if(!file_exists($folderKeluarga))
-	mkdir($folderKeluarga);
+	mkdir($folderKeluarga,0777,true);
 	
 if(isset($_GET['rotate']) && $_GET['rotate']*1>0){
 	$path = $folderKeluarga.$_GET['path'];
 	if(file_exists($path)){
 		$source = imagecreatefromjpeg($path);
 		$source = imagerotate($source, $_GET['rotate'], 0);
-		unlink($path);
+		//unlink($path);
 		imagejpeg($source,$path,100);
 		imagedestroy($source);
+		if(file_exists($path.".thumb.kotak"))
+			unlink($path.".thumb.kotak");
+		if(file_exists($path.".thumb.kotakasli"))
+			unlink($path.".thumb.kotakasli");
 	}
 }
 if(isset($_GET['savephoto']) && !empty($_POST['kamera'])){
+	if($_FILES['error']==1){
+		?><script>alert('Ukuran file terlalu besar');</script>
+		<meta http-equiv="refresh" content="2; <?= "./?apa=$apa&id=$ID" ?>"<?
+		die();	
+	}
+	
 	$path = $folderKeluarga.$_POST['untuk'].".wrg";
+	if(file_exists($path.".thumb.kotak"))
+		unlink($path.".thumb.kotak");
+	if(file_exists($path.".thumb.kotakasli"))
+		unlink($path.".thumb.kotakasli");
 	if($_POST['picsource']=='file'){
 		if(file_exists($_FILES['fotoUpload']['tmp_name']))
-			move_uploaded_file($_FILES['fotoUpload']['tmp_name'],$path);
+			try{
+				move_uploaded_file($_FILES['fotoUpload']['tmp_name'],$path);
+			}catch(Exception $e){}
 		else
-			unlink($path);
+			if(file_exists($path))
+				unlink($path);
 	}else{
 		try{
 			$foto = base64_decode(str_replace(' ', '+',str_replace("data:image/jpeg;base64,","",$_POST['kamera'])));
 			unlink($path);
 			file_put_contents($path,$foto);
 		}catch(Exception $e){
-			unlink($path);
+			if(file_exists($path))
+				unlink($path);
 		}
 	}
 	if(file_exists($path) && strpos($_POST['untuk'],'foto')===false){
@@ -74,9 +92,11 @@ if(isset($_GET['addPhoto'])){
                     	<option value="KK">Kartu Keluarga</option>
                         <? if(!empty($keluarga['nama_suami'])){ ?>
                         <option value="ktp.suami">KTP <?=$keluarga['nama_suami']?></option>
+                        <option value="foto.suami">Foto <?=$keluarga['nama_suami']?></option>
                         <? } ?>
                         <? if(!empty($keluarga['nama_istri'])){ ?>
                         <option value="ktp.istri">KTP <?=$keluarga['nama_istri']?></option>
+                        <option value="foto.istri">Foto <?=$keluarga['nama_istri']?></option>
                         <? } ?></optgroup><?
 						$hazil = $db->query("select id_warga_tambahan,nama_lengkap from t_warga_tambahan 
 									where id_warga=$ID order by tanggal_keluar asc");
@@ -127,7 +147,7 @@ if(isset($_GET['addPhoto'])){
 		  MediaStreamTrack.getSources(gotSources);
 		}
 	} else {
-	  alert('Browser tidak mendukung kamera');
+	  //alert('Browser tidak mendukung kamera');
 	}
 	
 	function startCamera(){
@@ -201,10 +221,39 @@ if(isset($_GET['addPhoto'])){
     </div>
     <hr>
 <div class="row">
-<? if(!empty($keluarga['nama_suami']) && file_exists($folderKeluarga."ktp.suami.wrg")){ ?>
-  <div class="col-sm-6 col-md-4">
+<? if(!empty($keluarga['nama_suami']) && file_exists($folderKeluarga."foto.suami.wrg")){ ?>
+  <div class="col-md-2 col-xs-6 col-sm-4">
     <div class="thumbnail">
-      <img src="<?=$folderKeluarga?>ktp.suami.wrg?<?=rand(000,999)?>" alt="Gambar KTP Suami">
+      <img src="?apa=thumb&kotakasli&s=200&p=<?=$folderKeluarga?>foto.suami.wrg&<?=rand(000,999)?>" class="img-rounded" alt="Foto Suami">
+        <center>
+            <br>rotate: 
+            <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=90&path=<?=$relasi['id_warga_tambahan']?>foto.suami.wrg" class="btn btn-xs btn-primary">90</a>
+            <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=180&path=<?=$relasi['id_warga_tambahan']?>foto.suami.wrg" class="btn btn-xs btn-primary">180</a>
+        </center>
+      <div class="caption" align="center">
+        <b><?=$keluarga['nama_suami']?></b>
+      </div>
+    </div>
+  </div>
+<? } if(!empty($keluarga['nama_istri']) && file_exists($folderKeluarga."foto.istri.wrg")){ ?>
+  <div class="col-md-2 col-xs-6 col-sm-4">
+    <div class="thumbnail">
+      <img src="?apa=thumb&kotakasli&s=200&p=<?=$folderKeluarga?>foto.istri.wrg&<?=rand(000,999)?>" class="img-rounded" alt="Foto Istri">
+        <center>
+            <br>rotate: 
+            <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=90&path=<?=$relasi['id_warga_tambahan']?>foto.istri.wrg" class="btn btn-xs btn-primary">90</a>
+            <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=180&path=<?=$relasi['id_warga_tambahan']?>foto.istri.wrg" class="btn btn-xs btn-primary">180</a>
+        </center>
+      <div class="caption" align="center">
+        <b><?=$keluarga['nama_istri']?></b>
+      </div>
+    </div>
+  </div>  
+<? } ?>
+<? if(!empty($keluarga['nama_suami']) && file_exists($folderKeluarga."ktp.suami.wrg")){ ?>
+  <div class="col-md-2 col-xs-6 col-sm-4">
+    <div class="thumbnail">
+      <img src="?apa=thumb&kotakasli&s=200&p=<?=$folderKeluarga?>ktp.suami.wrg&<?=rand(000,999)?>" class="img-rounded" alt="Gambar KTP Suami">
         <center>
             <br>rotate: 
             <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=90&path=<?=$relasi['id_warga_tambahan']?>ktp.suami.wrg" class="btn btn-xs btn-primary">90</a>
@@ -216,9 +265,9 @@ if(isset($_GET['addPhoto'])){
     </div>
   </div>
 <? } if(!empty($keluarga['nama_istri']) && file_exists($folderKeluarga."ktp.istri.wrg")){ ?>
-  <div class="col-sm-6 col-md-4">
+  <div class="col-md-2 col-xs-6 col-sm-4">
     <div class="thumbnail">
-      <img src="<?=$folderKeluarga?>ktp.istri.wrg?<?=rand(000,999)?>" alt="Gambar KTP Istri">
+      <img src="?apa=thumb&kotakasli&s=200&p=<?=$folderKeluarga?>ktp.istri.wrg&<?=rand(000,999)?>" class="img-rounded" alt="Gambar KTP Istri">
         <center>
             <br>rotate: 
             <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=90&path=<?=$relasi['id_warga_tambahan']?>ktp.istri.wrg" class="btn btn-xs btn-primary">90</a>
@@ -232,9 +281,9 @@ if(isset($_GET['addPhoto'])){
 <? } 
 	if(file_exists($folderKeluarga."KK.wrg")){
 ?>
-  <div class="col-sm-6 col-md-4">
+  <div class="col-md-2 col-xs-6 col-sm-4">
     <div class="thumbnail">
-      <img src="<?=$folderKeluarga?>KK.wrg?<?=rand(000,999)?>" alt="Gambar Kartu Keluarga">
+      <img src="?apa=thumb&kotakasli&s=200&p=<?=$folderKeluarga?>KK.wrg&<?=rand(000,999)?>" class="img-rounded" alt="Gambar Kartu Keluarga">
         <center>
             <br>rotate: 
             <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=90&path=<?=$relasi['id_warga_tambahan']?>KK.wrg" class="btn btn-xs btn-primary">90</a>
@@ -247,6 +296,8 @@ if(isset($_GET['addPhoto'])){
   </div>
   <? } ?>
 </div>
+<hr>
+<div class="row">
 <?
 $hazil = $db->query("select `id_warga_tambahan`, nama_lengkap from t_warga_tambahan 
 					where id_warga=$ID order by tanggal_keluar asc");
@@ -254,27 +305,26 @@ $n = 1;
 while($relasi = $hazil->fetchArray()){
 	if(file_exists($folderKeluarga.$relasi['id_warga_tambahan'].".ktp.wrg") || file_exists($folderKeluarga.$relasi['id_warga_tambahan'].".foto.wrg")){
 ?>
-<hr>
-<div class="row">
+
 	<? if(file_exists($folderKeluarga.$relasi['id_warga_tambahan'].".ktp.wrg")){ ?>
-    <div class="col-sm-6 col-md-4 col-md-offset-2">
+    <div class="col-md-2 col-xs-6 col-sm-4">
         <div class="thumbnail">
-            <img src="<?=$folderKeluarga?><?=$relasi['id_warga_tambahan']?>.ktp.wrg?<?=rand(000,999)?>" alt="Gambar KTP">
+            <img src="?apa=thumb&kotakasli&s=200&p=<?=$folderKeluarga?><?=$relasi['id_warga_tambahan']?>.ktp.wrg&<?=rand(000,999)?>" class="img-rounded" alt="Gambar KTP">
             <center>
             	<br>rotate: 
                 <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=90&path=<?=$relasi['id_warga_tambahan']?>.ktp.wrg" class="btn btn-xs btn-primary">90</a>
                 <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=180&path=<?=$relasi['id_warga_tambahan']?>.ktp.wrg" class="btn btn-xs btn-primary">180</a>
             </center>
             <div class="caption" align="center">
-            <b><?=$relasi['nama_lengkap']?></b>
+            <b>KTP <?=$relasi['nama_lengkap']?></b>
             </div>
         </div>
     </div>
     <? } if(file_exists($folderKeluarga.$relasi['id_warga_tambahan'].".foto.wrg")){?>
     
-    <div class="col-sm-6 col-md-4">
+    <div class="col-md-2 col-xs-6 col-sm-4">
         <div class="thumbnail">
-            <img src="<?=$folderKeluarga?><?=$relasi['id_warga_tambahan']?>.foto.wrg?<?=rand(000,999)?>" alt="Gambar Foto Diri">
+            <img src="?apa=thumb&kotakasli&s=200&p=<?=$folderKeluarga?><?=$relasi['id_warga_tambahan']?>.foto.wrg&<?=rand(000,999)?>" class="img-rounded" alt="Gambar Foto Diri">
             <center>
             	<br>rotate: 
                 <a href="?apa=<?=$apa?>&id=<?=$ID?>&rotate=90&path=<?=$relasi['id_warga_tambahan']?>.foto.wrg" class="btn btn-xs btn-primary">90</a>
@@ -285,13 +335,11 @@ while($relasi = $hazil->fetchArray()){
             </div>
         </div>
     </div>
-    <? } ?>
-</div>
-<?
+    <? } 
 	}
-}
+} #end while
 ?>
-
+</div>
 
     <?
 }

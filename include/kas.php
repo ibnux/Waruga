@@ -286,7 +286,8 @@ while($row = $hasil->fetchArray()){
           </div>
           <div class="form-group">
             <label>Tanggal</label>
-            <input type="text" class="form-control datetimepicker" name="tanggal" value="<?="$tahun-$bulan-".date("d H:i:s")?>">
+            <input type="text" class="form-control datetimepicker" name="tanggal" value="<?=date("d")."-$bulan-$tahun".date(" H:i:s")?>">
+          	<p class="help-block">tgl-bln-thn jam:mnt:dtk</p>
           </div>
           <div class="form-group">
             <label>Kategori</label>
@@ -331,7 +332,8 @@ function editKeterangan(id,txt){
 }
 
 var leng = 0;
-jQuery('.datetimepicker').datetimepicker({format:'Y-m-d H:i:s',timepicker:true,lang:'id'});
+jQuery.datetimepicker.setLocale('id');
+jQuery('.datetimepicker').datetimepicker({format:'d-m-Y H:i:s',timepicker:false});
 function cekAja(obj){
 	if(leng>0)
 		if(leng>obj.value.length){

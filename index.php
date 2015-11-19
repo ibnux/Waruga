@@ -11,6 +11,11 @@ if(isset($_GET['file'])){
 	header("Cache-Control: private, max-age=10800, pre-check=10800");
 	header("Pragma: private");
 	header("Expires: " . date(DATE_RFC822,strtotime(" 7 day")));
+	$ext = pathinfo($_GET['apa'], PATHINFO_EXTENSION);
+	if($ext=='css') header("Content-Type: text/css");
+	if($ext=='js')header("Content-Type: text/js");
+	if(strpos(".eot.svg.ttf.woff.otf.",$ext)!==false) header("Content-Type: application/octet-stream");
+
 	if(file_exists($apa))
 		readfile($apa);
 	else if(file_exists("phar://waruga.phar/$apa")){

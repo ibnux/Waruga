@@ -46,7 +46,7 @@ if(isset($_GET['hapus']) && $_GET['hapus']!=1){
         <span class="input-group-addon">Tipe</span>
         <select class="form-control" name="tipe">
         <option <? if($tipe=='KAS') echo 'selected';?>>KAS</option>
-        <option <? if($tipe=='WARGA') echo 'selected';?>>WARGA</option>
+        <!--<option <? if($tipe=='WARGA') echo 'selected';?>>WARGA</option>-->
         </select>
         </div>
     </div>

@@ -259,7 +259,8 @@ $sql = "SELECT `id_warga`, `blok_rumah`, `nomor_rumah`, `nama_suami`, `nama_istr
           </div>
           <div class="form-group">
             <label>Tanggal</label>
-            <input type="text" class="form-control datetimepicker" name="tanggal" value="<?="$tahun-$bulan-".date("d H:i:s")?>">
+            <input type="text" class="form-control datetimepicker" name="tanggal" value="<?=date("d")."-$bulan-$tahun".date(" H:i:s")?>">
+          	<p class="help-block">tgl-bln-thn jam:mnt:dtk</p>
           </div>
           <div class="form-group">
             <label>Catatan</label>
@@ -286,7 +287,8 @@ $sql = "SELECT `id_warga`, `blok_rumah`, `nomor_rumah`, `nama_suami`, `nama_istr
 <script src="?file&apa=js/jquery.datetimepicker.js"></script> 
 <script>
 var leng = 0;
-jQuery('.datetimepicker').datetimepicker({format:'Y-m-d H:i:s',timepicker:true,lang:'id'});
+jQuery.datetimepicker.setLocale('id');
+jQuery('.datetimepicker').datetimepicker({format:'d-m-Y H:i:s',timepicker:false});
 
 function askedit(id,jml){
 	document.getElementById('idiuran').value = id;

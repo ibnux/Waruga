@@ -1,5 +1,15 @@
 <?
-$hasil = $db->query("SELECT `blok_rumah`, `nomor_rumah`, `nama_suami`, 
+if($_GET['filter']=="bapak")
+	$hasil = $db->query("SELECT `blok_rumah`, `nomor_rumah`, 
+				`nama_suami`, `telepon_suami` 
+				FROM t_warga 
+				WHERE tgl_keluar=0");
+else if($_GET['filter']=="ibu")
+	$hasil = $db->query("SELECT `blok_rumah`, `nomor_rumah`,
+				`nama_istri`,telepon_istri 
+				FROM t_warga 
+				WHERE tgl_keluar=0");
+else $hasil = $db->query("SELECT `blok_rumah`, `nomor_rumah`, `nama_suami`, 
 				`nama_istri`, `telepon_suami`,telepon_istri 
 				FROM t_warga 
 				WHERE tgl_keluar=0");
@@ -35,5 +45,6 @@ while($row = $hasil->fetchArray()){
 	}
 }
 //die($kartu);
-file_put_contents("./waruga.vcf",$kartu);
-header("location: waruga.vcf");
+$file = "./data/".$_GET['filter']."_".str_replace(" ","_",$config->Judul_Aplikasi).".vcf";
+file_put_contents($file,$kartu);
+header("location: $file");
