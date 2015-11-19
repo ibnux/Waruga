@@ -31,7 +31,7 @@ else{
 	set_time_limit(0);
 	$fp = fopen (dirname(__FILE__) . '/waruga.phar', 'w+');//This is the file where we save the    information
 	$ch = curl_init(str_replace(" ","%20","http://ibnux.github.io/Waruga/unduh/waruga.phar"));//Here is the file we are downloading, replace spaces with %20
-	curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 300);
 	curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 	curl_exec($ch); // get curl response

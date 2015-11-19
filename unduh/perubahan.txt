@@ -1,3 +1,15 @@
+[1.3]
+Versi ini dilombakan ke ajang Indonesian Next Apps, tapi kalah :))
+- penambahan kolom nomor KTP dan KK
+- penambahan kolom Agama (karena jarang dalam 1 rumah beda Agama, dianjurkan menggunakan label juga, agar bisa kirim sms ke Agama tertentu)
+- penambahan kolom warga negara, tempat lahir, pendidikan, email
+- penambahan Foto diri untuk keluarga, dan perbaikan error di upload foto
+- Bagian Ronda sudah dibuat
+
+
+-> ini versi terakhir, versi selanjutnya akan dibuat dari awal dengan lebih serius. 
+
+
 [1.2]
 perbaikan kesalahan kode
 
